@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nima Ultra Tools - AI & Utilities Suite</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        accent: '#ec4899',
+                        darkBg: '#090d16',
+                        cardBg: '#131b2e'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(19, 27, 46, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-wand-magic-sparkles text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-extrabold bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    NIMA ULTRA
+                </span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800">
+                <button id="nav-home" onclick="switchTab('home')" class="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-indigo-600 transition shadow-md">
+                    <i class="fa-solid fa-house mr-2"></i> Home & AI Chat
+                </button>
+                <button id="nav-tools" onclick="switchTab('tools')" class="px-5 py-2 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-grid-2-plus mr-2"></i> Tools Hub
+                </button>
+            </nav>
+
+            <!-- User Auth Profile / Get Started -->
+            <div>
+                <button id="authBtn" onclick="handleGoogleAuth()" class="bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-indigo-500/25 flex items-center gap-2 transition transform active:scale-95">
+                    <i class="fa-brands fa-google"></i> <span id="authBtnText">Get Started</span>
+                </button>
+                <div id="userProfile" class="hidden flex items-center gap-3 bg-slate-900/80 p-1.5 pr-4 rounded-xl border border-slate-800">
+                    <img id="userAvatar" src="" class="w-8 h-8 rounded-lg border border-indigo-500/50">
+                    <span id="userName" class="text-xs font-bold text-slate-200"></span>
+                    <button onclick="logout()" class="text-xs text-red-400 hover:text-red-300 ml-2"><i class="fa-solid fa-power-off"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TAB 1: HOME PAGE (Hero + Premium Cards + Exclusive AI Chatbot) -->
+    <main id="tab-home" class="flex-1 max-w-7xl mx-auto px-6 py-10 w-full space-y-16">
+        
+        <!-- Hero Section -->
+        <section class="text-center space-y-6 pt-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
+                <i class="fa-solid fa-bolt text-yellow-400"></i> Next-Gen Web Suite 2026
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white max-w-4xl mx-auto">
+                All-In-One Power Tools <br>
+                <span class="bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">Powered by Advanced APIs</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Explore intelligent AI chat assistance, media downloaders, game stalkers, and graphics tools right inside Nima Ultra.
+            </p>
+            <div class="flex justify-center gap-4">
+                <button onclick="handleGoogleAuth()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5">
+                    Get Started Free <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+                <button onclick="switchTab('tools')" class="glass hover:bg-slate-800/80 text-slate-200 font-semibold px-8 py-3.5 rounded-xl transition">
+                    Browse All Tools
+                </button>
+            </div>
+        </section>
+
+        <!-- Feature Showcase Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-6 rounded-2xl space-y-3 border border-indigo-500/20">
+                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Advanced AI Intelligence</h3>
+                <p class="text-slate-400 text-sm">Powered by GPT-5.5 & Gemini engines for lightning-fast multi-model responses.</p>
+            </div>
+            <div class="glass p-6 rounded-2xl space-y-3 border border-pink-500/20">
+                <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 text-2xl">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Free Fire & Game Stalking</h3>
+                <p class="text-slate-400 text-sm">Instant player stats lookups, profile details, and account analytics.</p>
+            </div>
+            <div class="glass p-6 rounded-2xl space-y-3 border border-purple-500/20">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">TextPro & Graphic Creation</h3>
+                <p class="text-slate-400 text-sm">Generate Pornhub, Pixel Glitch, Pavement, and Wolf-Galaxy text graphics instantly.</p>
+            </div>
+        </section>
+
+        <!-- Exclusive Home AI Chatbot Widget -->
+        <section class="max-w-4xl mx-auto glass rounded-2xl border border-indigo-500/30 overflow-hidden shadow-2xl">
+            <div class="bg-slate-900/90 px-6 py-4 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                    <h2 class="font-bold text-white text-base">Nima Ultra AI Chatbot</h2>
+                </div>
+                <select id="chatModelSelect" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-300">
+                    <option value="gpt5">GPT-5.5 (ChatDay)</option>
+                    <option value="gemini">Gemini AI</option>
+                    <option value="freeai">Free AI</option>
+                </select>
+            </div>
+
+            <!-- Chat Message Output Window -->
+            <div id="chatWindow" class="p-6 h-[380px] overflow-y-auto space-y-4 bg-slate-950/50">
+                <div class="flex gap-3 items-start">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">AI</div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-sm text-slate-200 max-w-[80%] border border-slate-700/50">
+                        Hello! I am Nima Ultra Assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form onsubmit="sendChatMessage(event)" class="p-4 bg-slate-900 border-t border-slate-800 flex gap-3">
+                <input id="chatInput" type="text" placeholder="Type your message here..." required class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl transition flex items-center gap-2">
+                    <span>Send</span> <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- TAB 2: TOOLS HUB (Contains All Other API Features) -->
+    <main id="tab-tools" class="flex-1 max-w-7xl mx-auto px-6 py-10 w-full hidden space-y-8">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Nima Tools Hub</h1>
+                <p class="text-slate-400 text-sm">Access specialized API tools directly inside your dashboard.</p>
+            </div>
+            <!-- Tool Search / Filter -->
+            <div class="flex items-center bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 w-full md:w-64">
+                <i class="fa-solid fa-magnifying-glass text-slate-500 mr-2 text-sm"></i>
+                <input type="text" oninput="filterTools(this.value)" placeholder="Search tools..." class="bg-transparent text-sm text-white focus:outline-none w-full">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar Selection -->
+            <div id="toolsList" class="md:col-span-1 space-y-2">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Active Tool Execution Workspace -->
+            <div class="md:col-span-3">
+                <div id="activeToolPanel" class="glass rounded-2xl p-6 border border-slate-800 hidden space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                        <h2 id="selectedToolTitle" class="text-xl font-bold text-white flex items-center gap-3"></h2>
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Live Tool</span>
+                    </div>
+
+                    <!-- Input Form -->
+                    <form id="toolForm" onsubmit="executeTool(event)" class="space-y-4">
+                        <div id="dynamicInputs" class="space-y-4"></div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> Execute Request
+                        </button>
+                    </form>
+
+                    <!-- Render Container -->
+                    <div id="toolOutputContainer" class="hidden space-y-3 pt-4 border-t border-slate-800">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Live API Response</h3>
+                        <div id="toolLoader" class="hidden py-8 text-center text-indigo-400">
+                            <i class="fa-solid fa-spinner fa-spin text-3xl"></i>
+                            <p class="text-xs text-slate-400 mt-2">Fetching from API Server...</p>
+                        </div>
+                        <div id="renderedOutput" class="bg-slate-950/80 rounded-xl p-5 border border-slate-800 min-h-[120px] flex items-center justify-center"></div>
+                    </div>
+                </div>
+
+                <div id="noToolSelected" class="glass rounded-2xl p-12 text-center text-slate-500 border border-dashed border-slate-800">
+                    <i class="fa-solid fa-hand-pointer text-4xl mb-3 text-indigo-500/50"></i>
+                    <p class="text-base font-medium">Select a tool from the left menu to start using it.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 glass py-6 text-center text-xs text-slate-500 mt-auto">
+        Nima Ultra Tools &copy; 2026. Built with Clean Real API Execution.
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        const KEYS = {
+            SUPUN: 'supun-gu4cu5z5p5p72c2b8wa337jg',
+            DEXTER: 'dex_3E3RkLKtElQpBf3hThUkr1YLWJdwCUg9Vm6OXescYeDtb39O'
+        };
+
+        let currentActiveTool = null;
+
+        // Registered API Tools Database
+        const TOOL_REGISTRY = [
+            {
+                id: 'ff_stalk',
+                name: 'Free Fire Account Stalker',
+                icon: 'fa-crosshairs',
+                inputs: [{ label: 'Player Free Fire ID', key: 'id', type: 'text' }],
+                endpoint: (p) => `https://supunofc.site/api/stalker/other/ff-stalk?id=${encodeURIComponent(p.id)}&apikey=${KEYS.SUPUN}`
+            },
+            {
+                id: 'cinesubz',
+                name: 'Cinesubz Movie Search',
+                icon: 'fa-film',
+                inputs: [{ label: 'Movie Title', key: 'q', type: 'text' }, { label: 'Limit', key: 'limit', type: 'number', default: '5' }],
+                endpoint: (p) => `https://dexter-apis.onrender.com/api/movies/cinesubz-search?q=${encodeURIComponent(p.q)}&limit=${p.limit || 5}&apikey=${KEYS.DEXTER}`
+            },
+            {
+                id: 'pornhub_logo',
+                name: 'TextPro: Pornhub Style Logo',
+                icon: 'fa-image',
+                inputs: [{ label: 'Text 1', key: 't1', type: 'text' }, { label: 'Text 2', key: 't2', type: 'text' }],
+                endpoint: (p) => `https://dexter-apis.onrender.com/api/textpro/pornhub?text1=${encodeURIComponent(p.t1)}&text2=${encodeURIComponent(p.t2)}&apikey=${KEYS.DEXTER}`
+            },
+            {
+                id: 'pixel_glitch',
+                name: 'TextPro: Pixel Glitch Text',
+                icon: 'fa-wand-magic',
+                inputs: [{ label: 'Your Text', key: 'text', type: 'text' }],
+                endpoint: (p) => `https://dexter-apis.onrender.com/api/textpro/pixel-glitch?text=${encodeURIComponent(p.text)}&apikey=${KEYS.DEXTER}`
+            },
+            {
+                id: 'google_img',
+                name: 'Google Image Search',
+                icon: 'fa-google',
+                inputs: [{ label: 'Search Query', key: 'q', type: 'text' }],
+                endpoint: (p) => `https://supunofc.site/api/search/google-image-search/search?q=${encodeURIComponent(p.q)}&apikey=${KEYS.SUPUN}`
+            },
+            {
+                id: 'webtozip',
+                name: 'Web-to-ZIP Downloader',
+                icon: 'fa-file-zipper',
+                inputs: [{ label: 'Target Site URL', key: 'url', type: 'url' }],
+                endpoint: (p) => `https://dexter-apis.onrender.com/api/tools/webtozip?url=${encodeURIComponent(p.url)}&apikey=${KEYS.DEXTER}`
+            },
+            {
+                id: 'hackernews',
+                name: 'HackerNews Search',
+                icon: 'fa-newspaper',
+                inputs: [{ label: 'Topic Keyword', key: 'q', type: 'text' }],
+                endpoint: (p) => `https://dexter-apis.onrender.com/api/info/hackernews?q=${encodeURIComponent(p.q)}&limit=5&apikey=${KEYS.DEXTER}`
+            }
+        ];
+
+        // Tab Switching
+        function switchTab(tab) {
+            const homeTab = document.getElementById('tab-home');
+            const toolsTab = document.getElementById('tab-tools');
+            const navHome = document.getElementById('nav-home');
+            const navTools = document.getElementById('nav-tools');
+
+            if (tab === 'home') {
+                homeTab.classList.remove('hidden');
+                toolsTab.classList.add('hidden');
+                navHome.className = 'px-5 py-2 rounded-lg text-sm font-semibold text-white bg-indigo-600 transition shadow-md';
+                navTools.className = 'px-5 py-2 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition';
+            } else {
+                homeTab.classList.add('hidden');
+                toolsTab.classList.remove('hidden');
+                navTools.className = 'px-5 py-2 rounded-lg text-sm font-semibold text-white bg-indigo-600 transition shadow-md';
+                navHome.className = 'px-5 py-2 rounded-lg text-sm font-semibold text-slate-400 hover:text-white transition';
+                renderToolsList(TOOL_REGISTRY);
+            }
+        }
+
+        // Render Tools Sidebar
+        function renderToolsList(tools) {
+            const container = document.getElementById('toolsList');
+            container.innerHTML = '';
+            tools.forEach(tool => {
+                container.innerHTML += `
+                    <div onclick="selectTool('${tool.id}')" class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-indigo-500/50 hover:bg-slate-800/50 cursor-pointer transition flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid ${tool.icon}"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-200">${tool.name}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function filterTools(query) {
+            const filtered = TOOL_REGISTRY.filter(t => t.name.toLowerCase().includes(query.toLowerCase()));
+            renderToolsList(filtered);
+        }
+
+        function selectTool(id) {
+            currentActiveTool = TOOL_REGISTRY.find(t => t.id === id);
+            document.getElementById('noToolSelected').classList.add('hidden');
+            document.getElementById('activeToolPanel').classList.remove('hidden');
+            document.getElementById('selectedToolTitle').innerHTML = `<i class="fa-solid ${currentActiveTool.icon} text-indigo-400"></i> ${currentActiveTool.name}`;
+
+            const inputsBox = document.getElementById('dynamicInputs');
+            inputsBox.innerHTML = '';
+            currentActiveTool.inputs.forEach(input => {
+                inputsBox.innerHTML += `
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1 rounded">${input.label}</label>
+                        <input type="${input.type}" name="${input.key}" value="${input.default || ''}" required placeholder="Enter ${input.label}..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                `;
+            });
+            document.getElementById('toolOutputContainer').classList.add('hidden');
+        }
+
+        async function executeTool(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const params = {};
+            formData.forEach((v, k) => params[k] = v);
+
+            const url = currentActiveTool.endpoint(params);
+            const container = document.getElementById('toolOutputContainer');
+            const loader = document.getElementById('toolLoader');
+            const outputBox = document.getElementById('renderedOutput');
+
+            container.classList.remove('hidden');
+            loader.classList.remove('hidden');
+            outputBox.innerHTML = '';
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                loader.classList.add('hidden');
+                renderOutputVisual(data);
+            } catch (err) {
+                loader.classList.add('hidden');
+                outputBox.innerHTML = `<p class="text-red-400 text-sm"><i class="fa-solid fa-triangle-exclamation mr-1"></i> API Execution Failed or CORS blocked.</p>`;
+            }
+        }
+
+        function renderOutputVisual(data) {
+            const box = document.getElementById('renderedOutput');
+
+            // Image Graphic Output (TextPro, Screenshots)
+            const imgUrl = data.result || data.image || data.url;
+            if (typeof imgUrl === 'string' && (imgUrl.startsWith('http') || imgUrl.startsWith('data:image'))) {
+                box.innerHTML = `
+                    <div class="flex flex-col items-center gap-3">
+                        <img src="${imgUrl}" class="max-w-full rounded-xl border border-slate-700 shadow-xl">
+                        <a href="${imgUrl}" target="_blank" download class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition">Download Image</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Structured JSON fallback card
+            box.innerHTML = `<pre class="text-xs text-indigo-300 w-full overflow-x-auto text-left leading-relaxed">${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        // Home AI Chatbot System
+        async function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const model = document.getElementById('chatModelSelect').value;
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatWindow = document.getElementById('chatWindow');
+
+            // User Message
+            chatWindow.innerHTML += `
+                <div class="flex gap-3 items-start justify-end">
+                    <div class="bg-indigo-600 p-3.5 rounded-2xl rounded-tr-none text-sm text-white max-w-[80%] shadow-md">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Loading
+            const loadingId = 'load-' + Date.now();
+            chatWindow.innerHTML += `
+                <div id="${loadingId}" class="flex gap-3 items-start">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">AI</div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-xs text-slate-400 italic">Thinking...</div>
+                </div>
+            `;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            let apiUrl = `https://supunofc.site/api/ai/chatday/chat?prompt=${encodeURIComponent(text)}&model=openai/gpt-5.5&apikey=${KEYS.SUPUN}`;
+            if (model === 'gemini') {
+                apiUrl = `https://supunofc.site/api/ai/ai2?prompt=${encodeURIComponent(text)}&model=gemini&apikey=${KEYS.SUPUN}`;
+            } else if (model === 'freeai') {
+                apiUrl = `https://supunofc.site/api/ai/ai/freeai?q=${encodeURIComponent(text)}&apikey=${KEYS.SUPUN}`;
+            }
+
+            try {
+                const res = await fetch(apiUrl);
+                const data = await res.json();
+                const aiReply = data.result || data.response || data.text || "No response received.";
+                document.getElementById(loadingId).outerHTML = `
+                    <div class="flex gap-3 items-start">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-xs font-bold shrink-0">AI</div>
+                        <div class="bg-slate-800 p-3.5 rounded-2xl rounded-tl-none text-sm text-slate-200 max-w-[80%] border border-slate-700/50">
+                            ${aiReply}
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                document.getElementById(loadingId).outerHTML = `<div class="text-xs text-red-400">Failed to connect to AI server.</div>`;
+            }
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Google Auth Simulation
+        function handleGoogleAuth() {
+            document.getElementById('authBtn').classList.add('hidden');
+            document.getElementById('userProfile').classList.remove('hidden');
+            document.getElementById('userAvatar').src = 'https://ui-avatars.com/api/?name=Nima+User&background=6366f1&color=fff';
+            document.getElementById('userName').innerText = 'Nima User';
+        }
+
+        function logout() {
+            document.getElementById('authBtn').classList.remove('hidden');
+            document.getElementById('userProfile').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
